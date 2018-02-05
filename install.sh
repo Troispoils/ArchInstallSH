@@ -8,6 +8,9 @@ function help(){
 	echo "Exemple de SWAP: +1G"
 	echo "Exemple RACINE: /"
 	echo "MDPROOT: azerty"
+	date_today=$(date +%F)
+	date_today=+" "$(date :%H:%M:%S)
+	echo $date_today
 }
 
 #Function Formatage
@@ -70,11 +73,10 @@ else
 	RACINE=$3
 	echo "mdp root = "$4
 	MDPROOT=$4
-
 	echo "Fin de l'enregistrement"
 
 	loadkeys fr-pc
-	timedatectl set-time '2016-10-05 23:00:00'
+	timedatectl set-ntp true
 
 	echo "Test Internet"
 	ping www.google.fr -c5 -q
@@ -92,12 +94,19 @@ else
 	mkdir /mnt/home && mount /dev/sda4 /mnt/home
 	swapon /dev/sda2
 	mkdir /mnt/boot && mount /dev/sda1 /mnt/boot
+	cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+	#sed -s 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup <<EOF
+#^c
+#EOF
+	#rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+	echo "Server = http://archlinux.mirror.pkern.at/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 	pacstrap /mnt base base-devel dialog wireless_tools 
 	pacstrap /mnt syslinux
 	genfstab -U -p /mnt >> /mnt/etc/fstab
 
 	arch-chroot /mnt /bin/bash <<EOF
 	echo $NAME > /etc/hostname
+	echo '127.0.1.1 $NAME.localdomain $NAME' >> /etc/hosts
 	ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime
 	echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen
 	locale-gen
