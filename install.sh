@@ -8,9 +8,6 @@ function help(){
 	echo "Exemple de SWAP: +1G"
 	echo "Exemple RACINE: /"
 	echo "MDPROOT: azerty"
-	date_today=$(date +%F)
-	date_today=+" "$(date :%H:%M:%S)
-	echo $date_today
 }
 
 #Function Formatage
@@ -95,10 +92,6 @@ else
 	swapon /dev/sda2
 	mkdir /mnt/boot && mount /dev/sda1 /mnt/boot
 	cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-	#sed -s 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup <<EOF
-#^c
-#EOF
-	#rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 	echo "Server = http://archlinux.mirror.pkern.at/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist
 	pacstrap /mnt base base-devel dialog wireless_tools 
 	pacstrap /mnt syslinux
