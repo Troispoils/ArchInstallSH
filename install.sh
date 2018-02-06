@@ -50,13 +50,13 @@ w
 EOF
 }
 
-if [ $# > "5" ]; then
+if (( $# > "4" )); then
 	echo "Trop d'argument"
 	help
-elif [ $# == "0" ]; then
-	echo "Pas d'argument"
-	help
 elif [ $1 = "help" ]; then
+	help
+elif (( $# < "4" )); then
+	echo "Pas d'argument"
 	help
 else
 	echo "## Installation Basic ##"
