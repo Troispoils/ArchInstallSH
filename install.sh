@@ -87,7 +87,6 @@ else
 	mkfs.ext4 /dev/sda4
 	mkswap /dev/sda2
 	mount /dev/sda3 /mnt
-	# Pour créer le(s) dossier(s) utilisateur, il nous faut monter la partition /home
 	mkdir /mnt/home && mount /dev/sda4 /mnt/home
 	swapon /dev/sda2
 	mkdir /mnt/boot && mount /dev/sda1 /mnt/boot
