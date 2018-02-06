@@ -50,10 +50,10 @@ w
 EOF
 }
 
-if [ $# < 5 ]; then
+if [ $# > "5" ]; then
 	echo "Trop d'argument"
 	help
-elif [ $# = 0 ]; then
+elif [ $# == "0" ]; then
 	echo "Pas d'argument"
 	help
 elif [ $1 = "help" ]; then
